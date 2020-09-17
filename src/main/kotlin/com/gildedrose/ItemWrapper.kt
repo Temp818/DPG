@@ -30,8 +30,16 @@ sealed class ItemWrapper(private val item: Item) {
     }
 
     open fun updateQuality() {
-        val tempQuality =   if (sellIn <= LIMIT_DAY_TO_SELL) quality - 2 else quality - 1
+        val tempQuality = computeQuality()
         quality = if (tempQuality < MIN_QUALITY) MIN_QUALITY else tempQuality
+    }
+
+    open fun computeQuality(): Int {
+        return if (sellIn <= LIMIT_DAY_TO_SELL) {
+            quality - OUT_OF_SELL_QUALITY_LOST_VALUE
+        } else {
+            quality - BASIC_QUALITY_LOST_VALUE
+        }
     }
 
     open fun updateSellIn() {
@@ -55,7 +63,7 @@ sealed class ItemWrapper(private val item: Item) {
             quality = if (tempQuality >= MAX_QUALITY) MAX_QUALITY else tempQuality
         }
 
-        open fun computeQuality() = if (sellIn <= LIMIT_DAY_TO_SELL) quality + 2 else quality + 1
+        override fun computeQuality() = if (sellIn <= LIMIT_DAY_TO_SELL) quality + 2 else quality + 1
     }
 
     class BackstageItem(item: Item) : EnhancedItem(item) {
@@ -83,11 +91,21 @@ sealed class ItemWrapper(private val item: Item) {
         }
     }
 
-    class ConjuredItem(item: Item) : ItemWrapper(item)
+    class ConjuredItem(item: Item) : ItemWrapper(item) {
+        override fun computeQuality(): Int {
+            return if (sellIn <= LIMIT_DAY_TO_SELL) {
+                quality - 2 * OUT_OF_SELL_QUALITY_LOST_VALUE
+            } else {
+                quality - 2 * BASIC_QUALITY_LOST_VALUE
+            }
+        }
+    }
 
     companion object {
         const val MAX_QUALITY = 50
         private const val MIN_QUALITY = 0
         private const val LIMIT_DAY_TO_SELL = 0
+        const val BASIC_QUALITY_LOST_VALUE = 1
+        const val OUT_OF_SELL_QUALITY_LOST_VALUE = 2
     }
 }
