@@ -10,14 +10,14 @@ internal class LegendaryItemTest {
     @Test
     fun testQualityNeverChange() {
         val item = ItemWrapper.LegendaryItem(Item("foo", 11, 2))
-        item.updateQuality()
+        item.updateItem()
         assertEquals(2, item.quality)
     }
 
     @Test
     fun testSellInNeverChange() {
         val item = ItemWrapper.LegendaryItem(Item("foo", 10, 2))
-        item.updateSellIn()
+        item.updateItem()
         assertEquals(10, item.sellIn)
     }
 

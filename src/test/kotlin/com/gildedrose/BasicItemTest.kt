@@ -10,28 +10,32 @@ internal class BasicItemTest {
     @Test
     fun testQualityNeverDropBelow0() {
         val item = ItemWrapper.BasicItem(Item("foo", 0, 0))
-        item.updateQuality()
+        item.updateItem()
         assertEquals(0, item.quality)
     }
 
     @Test
-    fun testQualityDecreaseBy1WhenSellInDateNotOver() {
-        val item = ItemWrapper.BasicItem(Item("foo", 2, 2))
-        item.updateQuality()
-        assertEquals(1, item.quality)
+    fun testQualityDecreaseByBasicQualityLostValueWhenSellInDateNotOver() {
+        val baseQuality = 2
+        val item = ItemWrapper.BasicItem(Item("foo", 2, baseQuality))
+        item.updateItem()
+        val expectedQuality = baseQuality - ItemWrapper.BASIC_QUALITY_LOST_VALUE
+        assertEquals(expectedQuality, item.quality)
     }
 
     @Test
     fun testQualityDecreaseTwiceAsFastWhenSellInDateOver() {
-        val item = ItemWrapper.BasicItem(Item("foo", 0, 2))
-        item.updateQuality()
-        assertEquals(0, item.quality)
+        val baseQuality = 2
+        val item = ItemWrapper.BasicItem(Item("foo", 0, baseQuality))
+        item.updateItem()
+        val expectedQuality = baseQuality - ItemWrapper.OUT_OF_SELL_QUALITY_LOST_VALUE
+        assertEquals(expectedQuality, item.quality)
     }
 
     @Test
     fun testSellInDateDecrease() {
         val item = ItemWrapper.BasicItem(Item("foo", 0, 2))
-        item.updateSellIn()
+        item.updateItem()
         assertEquals(-1, item.sellIn)
     }
 

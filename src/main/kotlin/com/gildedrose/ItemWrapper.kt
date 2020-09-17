@@ -25,16 +25,21 @@ sealed class ItemWrapper(private val item: Item) {
         checkQualityValidity()
     }
 
-    open fun checkQualityValidity() {
+    protected open fun checkQualityValidity() {
         if (quality > MAX_QUALITY) throw IllegalArgumentException("Quality cannot be greater than $MAX_QUALITY")
     }
 
-    open fun updateQuality() {
+    fun updateItem() {
+        updateQuality()
+        updateSellIn()
+    }
+
+    protected open fun updateQuality() {
         val tempQuality = computeQuality()
         quality = if (tempQuality < MIN_QUALITY) MIN_QUALITY else tempQuality
     }
 
-    open fun computeQuality(): Int {
+    protected open fun computeQuality(): Int {
         return if (sellIn <= LIMIT_DAY_TO_SELL) {
             quality - OUT_OF_SELL_QUALITY_LOST_VALUE
         } else {
@@ -42,13 +47,8 @@ sealed class ItemWrapper(private val item: Item) {
         }
     }
 
-    open fun updateSellIn() {
+    protected open fun updateSellIn() {
         sellIn -= 1
-    }
-
-    fun updateItem() {
-        updateQuality()
-        updateSellIn()
     }
 
     override fun toString(): String {
