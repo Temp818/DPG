@@ -2,9 +2,7 @@ package com.gildedrose
 
 import com.gildedrose.item.BasicItem
 import com.gildedrose.item.ItemWrapper
-import com.gildedrose.item.ItemWrapper.Companion.BASIC_QUALITY_LOST_VALUE
 import com.gildedrose.item.ItemWrapper.Companion.MAX_QUALITY
-import com.gildedrose.item.ItemWrapper.Companion.OUT_OF_SELL_QUALITY_LOST_VALUE
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.assertDoesNotThrow
@@ -21,20 +19,16 @@ internal class BasicItemTest {
 
     @Test
     fun testQualityDecreaseByBasicQualityLostValueWhenSellInDateNotOver() {
-        val baseQuality = 2
-        val item = BasicItem(Item("foo", 2, baseQuality))
+        val item = BasicItem(Item("foo", 2, 2))
         item.updateItem()
-        val expectedQuality = baseQuality - BASIC_QUALITY_LOST_VALUE
-        assertEquals(expectedQuality, item.quality)
+        assertEquals(1, item.quality)
     }
 
     @Test
     fun testQualityDecreaseTwiceAsFastWhenSellInDateOver() {
-        val baseQuality = 2
-        val item = BasicItem(Item("foo", 0, baseQuality))
+        val item = BasicItem(Item("foo", 0, 2))
         item.updateItem()
-        val expectedQuality = baseQuality - OUT_OF_SELL_QUALITY_LOST_VALUE
-        assertEquals(expectedQuality, item.quality)
+        assertEquals(0, item.quality)
     }
 
     @Test

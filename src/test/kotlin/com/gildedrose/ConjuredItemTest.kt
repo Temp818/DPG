@@ -2,9 +2,7 @@ package com.gildedrose
 
 import com.gildedrose.item.ConjuredItem
 import com.gildedrose.item.ItemWrapper
-import com.gildedrose.item.ItemWrapper.Companion.BASIC_QUALITY_LOST_VALUE
 import com.gildedrose.item.ItemWrapper.Companion.MAX_QUALITY
-import com.gildedrose.item.ItemWrapper.Companion.OUT_OF_SELL_QUALITY_LOST_VALUE
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.assertDoesNotThrow
@@ -24,8 +22,7 @@ internal class ConjuredItemTest {
         val baseQuality = 2
         val item = ConjuredItem(Item("foo", 2, baseQuality))
         item.updateItem()
-        val expectedQuality = baseQuality - 2 * BASIC_QUALITY_LOST_VALUE
-        assertEquals(expectedQuality, item.quality)
+        assertEquals(0, item.quality)
     }
 
     @Test
@@ -33,8 +30,7 @@ internal class ConjuredItemTest {
         val baseQuality = 5
         val item = ConjuredItem(Item("foo", 0, baseQuality))
         item.updateItem()
-        val expectedQuality = baseQuality - 2 * OUT_OF_SELL_QUALITY_LOST_VALUE
-        assertEquals(expectedQuality, item.quality)
+        assertEquals(1, item.quality)
     }
 
     @Test

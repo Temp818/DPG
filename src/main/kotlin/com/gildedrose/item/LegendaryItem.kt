@@ -14,4 +14,8 @@ class LegendaryItem(item: Item) : ItemWrapper(item) {
     override fun updateSellIn() {
 
     }
+
+    override fun getOutOfSellQualityFactor(): Int = 0
+
+    override fun getNormalQualityFactor(): Int = 0
 }

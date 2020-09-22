@@ -43,11 +43,14 @@ abstract class ItemWrapper(private val item: Item) {
 
     protected open fun computeQuality(): Int {
         return if (sellIn <= LIMIT_DAY_TO_SELL) {
-            quality - OUT_OF_SELL_QUALITY_LOST_VALUE
+            quality - getOutOfSellQualityFactor() * QUALITY_LOST_VALUE
         } else {
-            quality - BASIC_QUALITY_LOST_VALUE
+            quality - getNormalQualityFactor() * QUALITY_LOST_VALUE
         }
     }
+
+    abstract fun getOutOfSellQualityFactor(): Int
+    abstract fun getNormalQualityFactor(): Int
 
     protected open fun updateSellIn() {
         sellIn -= 1
@@ -61,7 +64,6 @@ abstract class ItemWrapper(private val item: Item) {
         const val MAX_QUALITY = 50
         const val MIN_QUALITY = 0
         const val LIMIT_DAY_TO_SELL = 0
-        const val BASIC_QUALITY_LOST_VALUE = 1
-        const val OUT_OF_SELL_QUALITY_LOST_VALUE = 2
+        const val QUALITY_LOST_VALUE = 1
     }
 }

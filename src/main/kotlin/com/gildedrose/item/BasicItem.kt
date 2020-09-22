@@ -2,4 +2,7 @@ package com.gildedrose.item
 
 import com.gildedrose.Item
 
-class BasicItem(item: Item): ItemWrapper(item)
+open class BasicItem(item: Item): ItemWrapper(item) {
+    override fun getOutOfSellQualityFactor(): Int = 2
+    override fun getNormalQualityFactor(): Int = 1
+}

@@ -2,11 +2,15 @@ package com.gildedrose.item
 
 import com.gildedrose.Item
 
-open class EnhancedItem(item: Item): ItemWrapper(item) {
+open class EnhancedItem(item: Item) : ItemWrapper(item) {
     override fun updateQuality() {
         val tempQuality = computeQuality()
         quality = if (tempQuality >= MAX_QUALITY) MAX_QUALITY else tempQuality
     }
 
     override fun computeQuality() = if (sellIn <= LIMIT_DAY_TO_SELL) quality + 2 else quality + 1
+
+    override fun getOutOfSellQualityFactor(): Int = 0
+
+    override fun getNormalQualityFactor(): Int = 0
 }
