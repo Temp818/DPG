@@ -1,5 +1,8 @@
 package com.gildedrose
 
+import com.gildedrose.item.EnhancedItem
+import com.gildedrose.item.ItemWrapper
+import com.gildedrose.item.ItemWrapper.Companion.MAX_QUALITY
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.assertDoesNotThrow
@@ -9,28 +12,28 @@ internal class EnhancedItemTest {
 
     @Test
     fun testQualityIncreaseBy1WhenSellInDateNotOver() {
-        val item = ItemWrapper.EnhancedItem(Item("foo", 2, 2))
+        val item = EnhancedItem(Item("foo", 2, 2))
         item.updateItem()
         assertEquals(3, item.quality)
     }
 
     @Test
     fun testQualityIncreaseTwiceAsFastWhenSellInDateOver() {
-        val item = ItemWrapper.EnhancedItem(Item("foo", 0, 2))
+        val item = EnhancedItem(Item("foo", 0, 2))
         item.updateItem()
         assertEquals(4, item.quality)
     }
 
     @Test
     fun testQualityNeverIncreaseAboveMaxQuality() {
-        val item = ItemWrapper.EnhancedItem(Item("foo", 0, ItemWrapper.MAX_QUALITY))
+        val item = EnhancedItem(Item("foo", 0, MAX_QUALITY))
         item.updateItem()
-        assertEquals(ItemWrapper.MAX_QUALITY, item.quality)
+        assertEquals(MAX_QUALITY, item.quality)
     }
 
     @Test
     fun testSellInDateDecrease() {
-        val item = ItemWrapper.EnhancedItem(Item("foo", 0, 2))
+        val item = EnhancedItem(Item("foo", 0, 2))
         item.updateItem()
         assertEquals(-1, item.sellIn)
     }
@@ -38,15 +41,15 @@ internal class EnhancedItemTest {
     @Test
     fun testCheckQualityValidityFailed() {
         assertThrows<IllegalArgumentException> {
-            arrayOf<ItemWrapper>(ItemWrapper.EnhancedItem(
-                    Item("foo", 3, ItemWrapper.MAX_QUALITY + 1)))
+            arrayOf<ItemWrapper>(EnhancedItem(
+                    Item("foo", 3, MAX_QUALITY + 1)))
         }
     }
 
     @Test
     fun testCheckQualityValiditySucceed() {
         assertDoesNotThrow {
-            arrayOf<ItemWrapper>(ItemWrapper.EnhancedItem(Item("foo", 3, ItemWrapper.MAX_QUALITY)))
+            arrayOf<ItemWrapper>(EnhancedItem(Item("foo", 3, MAX_QUALITY)))
         }
     }
 }
